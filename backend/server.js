@@ -5,10 +5,14 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const taskRoutes = require('./routes/tasks');
+const clubRoutes = require('./routes/clubs');
+const clubTaskRoutes = require('./routes/clubTasks');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use('/api/clubs', clubRoutes);
+app.use('/api/club-tasks', clubTaskRoutes);
 
 app.use('/api/tasks', taskRoutes);
 

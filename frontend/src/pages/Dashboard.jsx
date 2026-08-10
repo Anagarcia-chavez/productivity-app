@@ -6,6 +6,7 @@ function Dashboard() {
       <h1>Dashboard</h1>
       <nav style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center', marginTop: 20 }}>
         <Link to="/tasks">Tasks</Link>
+        <Link to="/clubs">Club To-Do's</Link>
       </nav>
     </div>
   );

@@ -6,5 +6,13 @@ export const getTasks = () => api.get('/tasks');
 export const createTask = (task) => api.post('/tasks', task);
 export const updateTask = (id, updates) => api.patch(`/tasks/${id}`, updates);
 export const deleteTask = (id) => api.delete(`/tasks/${id}`);
+export const getClubs = () => api.get('/clubs');
+export const createClub = (club) => api.post('/clubs', club);
+export const updateClub = (id, updates) => api.patch(`/clubs/${id}`, updates);
+export const deleteClub = (id) => api.delete(`/clubs/${id}`);
+export const getClubTasks = (clubId) => api.get(`/club-tasks?clubId=${clubId}`);
+export const createClubTask = (task) => api.post('/club-tasks', task);
+export const updateClubTask = (id, updates) => api.patch(`/club-tasks/${id}`, updates);
+export const deleteClubTask = (id) => api.delete(`/club-tasks/${id}`);
 
 export default api;
