@@ -19,6 +19,7 @@ function Dashboard() {
       <nav style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center', marginTop: 20 }}>
         <Link to="/tasks">Tasks</Link>
         <Link to="/clubs">Club To-Do's</Link>
+        <Link to="/pomodoro">Pomodoro</Link>
       </nav>
     </div>
   );
