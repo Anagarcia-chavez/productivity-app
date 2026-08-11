@@ -52,19 +52,29 @@ function PomodoroPage() {
   return (
     <PageWrapper pageKey="pomodoro">
       <Link to="/" style={{ display: 'inline-block', marginBottom: 10, color: 'white' }}>← Back</Link>
-      <h1>Pomodoro</h1>
+      
+      <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '85vh',
+      textAlign: 'center'
+    }}>
+        <h1 style={{ fontSize: '3em', marginBottom: 30 }}>Pomodoro</h1>
 
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginBottom: 20 }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 14, marginBottom: 30 }}>
         {Object.keys(MODES).map(key => (
           <button
             key={key}
             onClick={() => switchMode(key)}
             style={{
-              padding: '6px 12px',
+              padding: '10px 20px',
+              fontSize: '1.1em',
               backgroundColor: mode === key ? '#555' : '#222',
               color: 'white',
               border: '1px solid white',
-              borderRadius: 6,
+              borderRadius: 8,
               cursor: 'pointer'
             }}
           >
@@ -73,15 +83,16 @@ function PomodoroPage() {
         ))}
       </div>
 
-      <div style={{ fontSize: '5em', marginBottom: 20 }}>{formatTime(secondsLeft)}</div>
+      <div style={{ fontSize: '9em', marginBottom: 40, lineHeight: 1 }}>{formatTime(secondsLeft)}</div>
 
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 10 }}>
-        <button onClick={() => setIsRunning(prev => !prev)} style={{ padding: '10px 20px', fontSize: '1.2em' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 16 }}>
+        <button onClick={() => setIsRunning(prev => !prev)} style={{ padding: '16px 32px', fontSize: '1.6em' }}>
           {isRunning ? 'Pause' : 'Start'}
         </button>
-        <button onClick={reset} style={{ padding: '10px 20px', fontSize: '1.2em' }}>
+        <button onClick={reset} style={{ padding: '16px 32px', fontSize: '1.6em' }}>
           Reset
         </button>
+        </div>
       </div>
     </PageWrapper>
   );
