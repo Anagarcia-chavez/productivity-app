@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { parseSyllabus, createTask } from '../api';
+import PageWrapper from '../components/PageWrapper';
 
 function SyllabusPage() {
   const [inputMode, setInputMode] = useState('file'); // 'file' or 'text'
@@ -50,7 +51,7 @@ function SyllabusPage() {
   };
 
   return (
-    <div style={{ padding: 20, fontFamily: "'Jersey 10', sans-serif", minHeight: '100vh', boxSizing: 'border-box', color: 'white', textShadow: 'none' }}>
+    <PageWrapper pageKey="syllabus">
       <Link to="/" style={{ display: 'inline-block', marginBottom: 10, color: 'white' }}>← Back</Link>
       <h1 style={{ textAlign: 'center' }}>Syllabus Upload</h1>
 
@@ -104,7 +105,7 @@ function SyllabusPage() {
           </div>
         )}
       </div>
-    </div>
+    </PageWrapper>
   );
 }
 

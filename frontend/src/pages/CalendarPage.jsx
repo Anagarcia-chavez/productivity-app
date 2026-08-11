@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { buildCalendarUrl } from '../calendarConfig';
+import PageWrapper from '../components/PageWrapper';
 
 function CalendarPage() {
   return (
-    <div style={{ padding: 20, fontFamily: "'Jersey 10', sans-serif", minHeight: '100vh', boxSizing: 'border-box', color: 'white' }}>
+    <PageWrapper pageKey="calendar">
       <Link to="/" style={{ display: 'inline-block', marginBottom: 10, color: 'white' }}>← Back</Link>
       <h1 style={{ textAlign: 'center' }}>This Week</h1>
       <iframe
@@ -11,7 +12,7 @@ function CalendarPage() {
         style={{ border: 0, width: '100%', maxWidth: 900, height: 600, display: 'block', margin: '0 auto', borderRadius: 12 }}
         title="Weekly Calendar"
       />
-    </div>
+    </PageWrapper>
   );
 }
 

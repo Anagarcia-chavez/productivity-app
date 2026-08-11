@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getClubs, createClub, deleteClub, updateClub } from '../api';
 import ClubCard from './ClubCard';
+import PageWrapper from '../components/PageWrapper';
 
 function ClubsPage() {
   const [clubs, setClubs] = useState([]);
@@ -27,7 +28,7 @@ function ClubsPage() {
   };
 
   return (
-    <div style={{ padding: 20, fontFamily: "'Jersey 10', sans-serif", minHeight: '100vh', boxSizing: 'border-box' }}>
+    <PageWrapper pageKey="clubs">
       <Link to="/" style={{ display: 'inline-block', marginBottom: 10 }}>← Back</Link>
       <h1 style={{ textAlign: 'center' }}>Club To-Do's</h1>
 
@@ -41,7 +42,7 @@ function ClubsPage() {
           <ClubCard key={club._id} club={club} onDeleteClub={handleDeleteClub} onClubUpdated={loadClubs} />
         ))}
       </div>
-    </div>
+    </PageWrapper>
   );
 }
 

@@ -1,5 +1,3 @@
-//DAILY TASKS: ALLOWS FOR MANUAL/AUTOMATIC ENTRY (LINKS TO CANVAS)
-
 const mongoose = require('mongoose');
 
 const taskSchema = new mongoose.Schema({
@@ -7,7 +5,8 @@ const taskSchema = new mongoose.Schema({
   class: { type: String, default: '' },
   dueDate: Date,
   completed: { type: Boolean, default: false },
-  source: { type: String, default: 'manual' }
+  source: { type: String, default: 'manual' },
+  type: { type: String, default: 'assignment' } // 'assignment' or 'quiz'
 }, { timestamps: true });
 
 module.exports = mongoose.model('Task', taskSchema);

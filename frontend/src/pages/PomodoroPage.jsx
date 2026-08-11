@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import PageWrapper from '../components/PageWrapper';
 
 const MODES = {
   work: { label: 'Focus', minutes: 40 },
@@ -49,7 +50,7 @@ function PomodoroPage() {
   };
 
   return (
-    <div style={{ padding: 20, fontFamily: "'Jersey 10', sans-serif", minHeight: '100vh', boxSizing: 'border-box', color: 'white', textAlign: 'center' }}>
+    <PageWrapper pageKey="pomodoro">
       <Link to="/" style={{ display: 'inline-block', marginBottom: 10, color: 'white' }}>← Back</Link>
       <h1>Pomodoro</h1>
 
@@ -82,7 +83,7 @@ function PomodoroPage() {
           Reset
         </button>
       </div>
-    </div>
+    </PageWrapper>
   );
 }
 

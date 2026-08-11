@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getTasks, createTask, updateTask, deleteTask } from "../api";
 import { Link } from 'react-router-dom';
+import PageWrapper from '../components/PageWrapper';
 
 function TasksPage() {
   const [tasks, setTasks] = useState([]);
@@ -8,6 +9,7 @@ function TasksPage() {
   const [className, setClassName] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [sortMode, setSortMode] = useState('dueDate');
+  const [taskType, setTaskType] = useState('assignment');
   const [classColors, setClassColors] = useState(() => {
     const saved = localStorage.getItem('classColors');
     return saved ? JSON.parse(saved) : {};
@@ -23,14 +25,6 @@ function TasksPage() {
     setTasks(res.data);
   };
 
-  const handleAdd = async () => {
-    if (!title) return;
-    await createTask({ title, class: className, dueDate: dueDate || null });
-    setTitle('');
-    setDueDate('');
-    loadTasks();
-  };
-
   const toggleComplete = async (task) => {
     await updateTask(task._id, { completed: !task.completed });
     loadTasks();
@@ -40,6 +34,14 @@ function TasksPage() {
     await deleteTask(id);
     loadTasks();
   };
+
+  const handleAdd = async () => {
+  if (!title) return;
+  await createTask({ title, class: className, dueDate: dueDate || null, type: taskType });
+  setTitle('');
+  setDueDate('');
+  loadTasks();
+};
 
   const getColor = (cls) => classColors[cls] || '#888888';
 
@@ -69,19 +71,26 @@ function TasksPage() {
     return new Date(a.dueDate) - new Date(b.dueDate);
   });
 
-  return (
-  <div style={{ padding: 20, fontFamily: "'Jersey 10', sans-serif", minHeight: '100vh', boxSizing: 'border-box' }}>
+  const quizTasks = tasks
+  .filter(t => t.type === 'quiz')
+  .sort((a, b) => {
+    if (!a.dueDate) return 1;
+    if (!b.dueDate) return -1;
+    return new Date(a.dueDate) - new Date(b.dueDate);
+  });
+
+ return (
+<PageWrapper pageKey="tasks">
   <div style={{
-    backgroundColor: 'rgba(255, 254, 254, 0.44)',
+    backgroundColor: 'rgba(245, 238, 238, 0.77)',
     borderRadius: 12,
     padding: 24,
-    maxWidth: 900,
     margin: '0 auto',
     color: 'white'
   }}>
     <Link to="/" style={{ display: 'inline-block', marginBottom: 10 }}>← Back</Link>
 
-      <h1>Tasks</h1>
+    <h1>Tasks</h1>
 
       <div style={{ marginBottom: 10, display: 'flex', gap: 8, alignItems: 'center' }}>
         <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Assignment name" />
@@ -113,9 +122,12 @@ function TasksPage() {
         <select value={sortMode} onChange={e => setSortMode(e.target.value)}>
           <option value="dueDate">Due date</option>
           <option value="class">Class</option>
+        <select value={taskType} onChange={e => setTaskType(e.target.value)}>
+          <option value="assignment">Assignment</option>
+          <option value="quiz">Quiz</option>
+          </select>
         </select>
       </div>
-
       <table style={{ borderCollapse: 'collapse', width: '100%' }}>
         <thead>
           <tr style={{ textAlign: 'center', borderBottom: '2px solid #444' }}>
@@ -151,7 +163,7 @@ function TasksPage() {
           </tbody>
         </table>
       </div>
-    </div>
+    </PageWrapper>
   );
 }
 

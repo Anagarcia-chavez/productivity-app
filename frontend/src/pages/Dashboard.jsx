@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import { buildCalendarUrl } from '../calendarConfig';
+import PageWrapper from '../components/PageWrapper';
 
 function Dashboard() {
   return (
-    <div style={{ padding: 20, fontFamily: "'Jersey 10', sans-serif", textAlign: 'center' }}>
+    <PageWrapper pageKey="dashboard">
       <h1>Dashboard</h1>
-
       <Link to="/calendar" style={{ textDecoration: 'none', color: 'inherit' }}>
         <div style={{ border: '2px solid white', borderRadius: 8, overflow: 'hidden', width: 320, margin: '20px auto', cursor: 'pointer' }}>
           <iframe
@@ -22,7 +22,7 @@ function Dashboard() {
         <Link to="/pomodoro">Pomodoro</Link>
         <Link to="/syllabus">Syllabus Upload</Link>
       </nav>
-    </div>
+    </PageWrapper>
   );
 }
 
