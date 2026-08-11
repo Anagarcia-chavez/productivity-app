@@ -20,6 +20,7 @@ function Dashboard() {
         <Link to="/tasks">Tasks</Link>
         <Link to="/clubs">Club To-Do's</Link>
         <Link to="/pomodoro">Pomodoro</Link>
+        <Link to="/syllabus">Syllabus Upload</Link>
       </nav>
     </div>
   );

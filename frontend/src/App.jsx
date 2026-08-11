@@ -4,6 +4,7 @@ import TasksPage from './pages/TasksPage';
 import ClubsPage from './pages/ClubsPage';
 import CalendarPage from './pages/CalendarPage';
 import PomodoroPage from './pages/PomodoroPage';
+import SyllabusPage from './pages/SyllabusPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/clubs" element={<ClubsPage />} />
         <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/pomodoro" element={<PomodoroPage />} />
+        <Route path="/syllabus" element={<SyllabusPage />} />
       </Routes>
     </BrowserRouter>
   );
