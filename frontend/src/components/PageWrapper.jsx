@@ -19,7 +19,7 @@ function PageWrapper({ pageKey, children }) {
       width: '100%',
       color: 'white'
     }}>
-      <div style={{ position: 'absolute', top: 20, right: 20 }}>
+      <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 30 }}>
         <BackgroundPicker pageKey={pageKey} onChange={setBgImage} />
       </div>
       {children}
