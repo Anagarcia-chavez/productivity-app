@@ -5,7 +5,20 @@ import PageWrapper from '../components/PageWrapper';
 function Dashboard() {
   return (
     <PageWrapper pageKey="dashboard">
-      <h1>Dashboard</h1>
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: 160,
+        backgroundColor: 'white',
+        padding: '16px 20px',
+        boxSizing: 'border-box',
+        zIndex: 10
+  }}>
+</div>
+
+      <h1 style={{ position: 'relative', zIndex: 20, textAlign: 'center', marginTop: 90 }}>Dashboard</h1>
       <Link to="/calendar" style={{ textDecoration: 'none', color: 'inherit' }}>
         <div style={{ border: '2px solid white', borderRadius: 8, overflow: 'hidden', width: 320, margin: '20px auto', cursor: 'pointer' }}>
           <iframe
