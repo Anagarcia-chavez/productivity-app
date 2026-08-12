@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { buildCalendarUrl } from '../calendarConfig';
 import PageWrapper from '../components/PageWrapper';
+import NavCard from '../components/NavCard';
 
 function Dashboard() {
   return (
@@ -29,13 +30,19 @@ function Dashboard() {
         </div>
       </Link>
 
-      <nav style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center', marginTop: 20 }}>
-        <Link to="/tasks">Tasks</Link>
-        <Link to="/clubs">Club To-Do's</Link>
-        <Link to="/pomodoro">Pomodoro</Link>
-        <Link to="/syllabus">Syllabus Upload</Link>
-      </nav>
-    </PageWrapper>
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 30,
+        justifyContent: 'center',
+        marginTop: 30
+    }}>
+      <NavCard cardKey="card_tasks" label="Tasks" to="/tasks" />
+      <NavCard cardKey="card_clubs" label="Club To-Do's" to="/clubs" />
+      <NavCard cardKey="card_pomodoro" label="Pomodoro" to="/pomodoro" />
+      <NavCard cardKey="card_syllabus" label="Syllabus Upload" to="/syllabus" />
+    </div>
+  </PageWrapper>
   );
 }
 
