@@ -1,18 +1,35 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import PageWrapper from '../components/PageWrapper';
 
-const MODES = {
-  work: { label: 'Focus', minutes: 40 },
+const DEFAULT_MODES = {
+  work: { label: 'Focus', minutes: 25 },
   short: { label: 'Short Break', minutes: 5 },
   long: { label: 'Long Break', minutes: 15 },
 };
 
+function loadModes() {
+  const saved = localStorage.getItem('pomodoroModes');
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    return {
+      work: { label: 'Focus', minutes: parsed.work },
+      short: { label: 'Short Break', minutes: parsed.short },
+      long: { label: 'Long Break', minutes: parsed.long },
+    };
+  }
+  return DEFAULT_MODES;
+}
+
 function PomodoroPage() {
-  const [mode, setMode] = useState('work');
-  const [secondsLeft, setSecondsLeft] = useState(MODES.work.minutes * 60);
-  const [isRunning, setIsRunning] = useState(false);
-  const intervalRef = useRef(null);
+    const [modes, setModes] = useState(loadModes());
+    const [mode, setMode] = useState('work');
+    const [secondsLeft, setSecondsLeft] = useState(modes.work.minutes * 60);
+    const [isRunning, setIsRunning] = useState(false);
+    const [showSettings, setShowSettings] = useState(false);
+    const [customWork, setCustomWork] = useState(modes.work.minutes);
+    const [customShort, setCustomShort] = useState(modes.short.minutes);
+    const [customLong, setCustomLong] = useState(modes.long.minutes);
+    const intervalRef = useRef(null);
 
   useEffect(() => {
     if (isRunning) {
@@ -35,12 +52,50 @@ function PomodoroPage() {
   const switchMode = (newMode) => {
     setIsRunning(false);
     setMode(newMode);
-    setSecondsLeft(MODES[newMode].minutes * 60);
+    setSecondsLeft(modes[newMode].minutes * 60);
   };
+
+  const saveSettings = () => {
+  const updated = {
+    work: Number(customWork),
+    short: Number(customShort),
+    long: Number(customLong),
+  };
+  localStorage.setItem('pomodoroModes', JSON.stringify(updated));
+  const newModes = {
+    work: { label: 'Focus', minutes: updated.work },
+    short: { label: 'Short Break', minutes: updated.short },
+    long: { label: 'Long Break', minutes: updated.long },
+  };
+  setModes(newModes);
+  setIsRunning(false);
+  setSecondsLeft(newModes[mode].minutes * 60);
+  setShowSettings(false);
+};
+
+  const handleFile = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  if (file.size > 4 * 1024 * 1024) {
+    alert('This file is large and may not save correctly. Try a smaller GIF or image if it fails.');
+  }
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      setBackground(pageKey, reader.result);
+      onChange(reader.result);
+    } catch (err) {
+      alert('Could not save this background, the file is likely too large for browser storage. Try a smaller file.');
+    }
+  };
+  reader.readAsDataURL(file);
+};
 
   const reset = () => {
     setIsRunning(false);
-    setSecondsLeft(MODES[mode].minutes * 60);
+    setSecondsLeft(modes[mode].minutes * 60);
   };
 
   const formatTime = (secs) => {
@@ -50,7 +105,18 @@ function PomodoroPage() {
   };
 
   return (
-    <PageWrapper pageKey="pomodoro">
+    <div style={{
+        padding: 20,
+        fontFamily: "'Jersey 10', sans-serif",
+        minHeight: '100vh',
+        boxSizing: 'border-box',
+        backgroundImage: 'url(/vinyl_final.gif)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        width: '100%',
+        color: 'white'
+    }}>
       <Link to="/" style={{ display: 'inline-block', marginBottom: 10, color: 'white' }}>← Back</Link>
       
       <div style={{
@@ -61,40 +127,111 @@ function PomodoroPage() {
       minHeight: '85vh',
       textAlign: 'center'
     }}>
-        <h1 style={{ fontSize: '3em', marginBottom: 30 }}>Pomodoro</h1>
+        <h1 style={{ fontSize: '3em', marginBottom: 30, textShadow: '3px 3px 0 black, -3px -3px 0 black, 3px -3px 0 black, -3px 3px 0 black, 0 0 20px rgba(0,0,0,0.8)' }}>Pomodoro</h1>
 
       <div style={{ display: 'flex', justifyContent: 'center', gap: 14, marginBottom: 30 }}>
-        {Object.keys(MODES).map(key => (
+        {Object.keys(modes).map(key => (
           <button
             key={key}
             onClick={() => switchMode(key)}
             style={{
               padding: '10px 20px',
               fontSize: '1.1em',
-              backgroundColor: mode === key ? '#555' : '#222',
+              fontFamily: "'Jersey 10', sans-serif",
+              backgroundColor: mode === key ? 'rgba(226, 44, 44, 0.35)' : 'rgba(226, 44, 44, 0.35)',
               color: 'white',
               border: '1px solid white',
               borderRadius: 8,
               cursor: 'pointer'
             }}
           >
-            {MODES[key].label}
+            {modes[key].label}
           </button>
         ))}
       </div>
 
-      <div style={{ fontSize: '9em', marginBottom: 40, lineHeight: 1 }}>{formatTime(secondsLeft)}</div>
+<button
+  onClick={() => setShowSettings(prev => !prev)}
+  style={{
+    marginBottom: 20,
+    padding: '6px 14px',
+    fontFamily: "'Jersey 10', sans-serif",
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    color: 'white',
+    border: '2px solid white',
+    borderRadius: 20,
+    cursor: 'pointer'
+  }}>
+  ⚙ Settings
+</button>
+
+{showSettings && (
+  <div style={{
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 12,
+    padding: 20,
+    marginBottom: 20,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 10,
+    alignItems: 'center'
+  }}>
+    <div>
+      <label>Focus (min): </label>
+      <input type="number" value={customWork} onChange={e => setCustomWork(e.target.value)} style={{ width: 60 }} />
+    </div>
+    <div>
+      <label>Short Break (min): </label>
+      <input type="number" value={customShort} onChange={e => setCustomShort(e.target.value)} style={{ width: 60 }} />
+    </div>
+    <div>
+      <label>Long Break (min): </label>
+      <input type="number" value={customLong} onChange={e => setCustomLong(e.target.value)} style={{ width: 60 }} />
+    </div>
+    <button onClick={saveSettings} style={{
+      padding: '8px 20px',
+      fontFamily: "'Jersey 10', sans-serif",
+      backgroundColor: 'rgba(255,255,255,0.25)',
+      color: 'white',
+      border: '2px solid white',
+      borderRadius: 20,
+      cursor: 'pointer'
+    }}>
+      Save
+    </button>
+  </div>
+)}
+
+      <div style={{ fontSize: '9em', marginBottom: 40, lineHeight: 1, textShadow: '3px 3px 0 black, -3px -3px 0 black, 3px -3px 0 black, -3px 3px 0 black, 0 0 20px rgba(0,0,0,0.8)' }}>{formatTime(secondsLeft)}</div>
 
       <div style={{ display: 'flex', justifyContent: 'center', gap: 16 }}>
-        <button onClick={() => setIsRunning(prev => !prev)} style={{ padding: '16px 32px', fontSize: '1.6em' }}>
-          {isRunning ? 'Pause' : 'Start'}
+        <button onClick={() => setIsRunning(prev => !prev)} style={{ 
+            padding: '16px 32px',
+            fontSize: '1.6em',
+            fontFamily: "'Jersey 10', sans-serif",
+            backgroundColor: 'rgba(226, 44, 44, 0.35)',
+            color: 'white',
+            border: '2px solid white',
+            borderRadius: 20,
+            cursor: 'pointer'
+   }}>
+    {isRunning ? 'Pause' : 'Start'}
         </button>
-        <button onClick={reset} style={{ padding: '16px 32px', fontSize: '1.6em' }}>
+        <button onClick={reset} style={{ 
+            padding: '16px 32px',
+            fontSize: '1.6em',
+            fontFamily: "'Jersey 10', sans-serif",
+            backgroundColor: 'rgba(226, 44, 44, 0.35)',
+            color: 'white',
+            border: '2px solid white',
+            borderRadius: 20,
+            cursor: 'pointer'
+   }}>
           Reset
         </button>
         </div>
       </div>
-    </PageWrapper>
+    </div>
   );
 }
 
