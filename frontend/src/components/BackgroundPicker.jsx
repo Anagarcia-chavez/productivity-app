@@ -30,7 +30,7 @@ function BackgroundPicker({ pageKey, onChange }) {
       cursor: 'pointer',
       fontSize: '0.9em'
     }}>
-      🖼️
+      +
       <input type="file" accept="image/*" onChange={handleFile} style={{ display: 'none' }} />
     </label>
   );
