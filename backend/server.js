@@ -8,6 +8,7 @@ const taskRoutes = require('./routes/tasks');
 const clubRoutes = require('./routes/clubs');
 const clubTaskRoutes = require('./routes/clubTasks');
 const syllabusRoutes = require('./routes/syllabus');
+const bookmarkRoutes = require('./routes/bookmarks');
 
 const app = express();
 app.use(cors());
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use('/api/clubs', clubRoutes);
 app.use('/api/club-tasks', clubTaskRoutes);
 app.use('/api/syllabus', syllabusRoutes);
+app.use('/api/bookmarks', bookmarkRoutes);
 
 app.use('/api/tasks', taskRoutes);
 

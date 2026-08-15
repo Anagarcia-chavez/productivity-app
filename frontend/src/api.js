@@ -14,6 +14,9 @@ export const getClubTasks = (clubId) => api.get(`/club-tasks?clubId=${clubId}`);
 export const createClubTask = (task) => api.post('/club-tasks', task);
 export const updateClubTask = (id, updates) => api.patch(`/club-tasks/${id}`, updates);
 export const deleteClubTask = (id) => api.delete(`/club-tasks/${id}`);
+export const getBookmarks = () => api.get('/bookmarks');
+export const createBookmark = (bookmark) => api.post('/bookmarks', bookmark);
+export const deleteBookmark = (id) => api.delete(`/bookmarks/${id}`);
 export const parseSyllabus = (formData) => api.post('/syllabus/parse', formData, {
   headers: { 'Content-Type': 'multipart/form-data' }
 });
