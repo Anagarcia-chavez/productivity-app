@@ -3,10 +3,35 @@ import { buildCalendarUrl } from '../calendarConfig';
 import { getBackground } from '../backgroundStorage';
 import BackgroundPicker from '../components/BackgroundPicker';
 import NavCard from '../components/NavCard';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import SpotifyCard from '../components/SpotifyCard';
+import { getPlaylists, createPlaylist, deletePlaylist } from '../api';
 
 function Dashboard() {
   const [headerImage, setHeaderImage] = useState(() => getBackground('dashboard_header'));
+  const [playlists, setPlaylists] = useState([]);
+  const [playlistLabel, setPlaylistLabel] = useState('');
+  const [playlistUrl, setPlaylistUrl] = useState('');
+
+  useEffect(() => { loadPlaylists(); }, []);
+
+const loadPlaylists = async () => {
+  const res = await getPlaylists();
+  setPlaylists(res.data);
+};
+
+const handleAddPlaylist = async () => {
+  if (!playlistLabel || !playlistUrl) return;
+  await createPlaylist({ label: playlistLabel, url: playlistUrl });
+  setPlaylistLabel('');
+  setPlaylistUrl('');
+  loadPlaylists();
+};
+
+const handleDeletePlaylist = async (id) => {
+  await deletePlaylist(id);
+  loadPlaylists();
+};
 
   return (
     <div style={{
@@ -56,8 +81,29 @@ function Dashboard() {
         <NavCard cardKey="card_clubs" label="Club To-Do's" to="/clubs" />
         <NavCard cardKey="card_pomodoro" label="Pomodoro" to="/pomodoro" />
         <NavCard cardKey="card_syllabus" label="Syllabus Upload" to="/syllabus" />
+
+        <div style={{ marginTop: 40 }}>
+  <h2 style={{ textAlign: 'center' }}>Playlists</h2>
+
+  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 30, justifyContent: 'center', marginBottom: 20 }}>
+    {playlists.map(p => (
+      <SpotifyCard
+        key={p._id}
+        playlistUrl={p.url}
+        label={p.label}
+        onDelete={() => handleDeletePlaylist(p._id)}
+      />
+    ))}
+  </div>
+
+  <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+    <input value={playlistLabel} onChange={e => setPlaylistLabel(e.target.value)} placeholder="Playlist name" />
+    <input value={playlistUrl} onChange={e => setPlaylistUrl(e.target.value)} placeholder="Spotify playlist link" style={{ width: 300 }} />
+    <button onClick={handleAddPlaylist}>Add Playlist</button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
     </div>
   );
 }

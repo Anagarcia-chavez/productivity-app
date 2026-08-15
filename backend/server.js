@@ -9,6 +9,7 @@ const clubRoutes = require('./routes/clubs');
 const clubTaskRoutes = require('./routes/clubTasks');
 const syllabusRoutes = require('./routes/syllabus');
 const bookmarkRoutes = require('./routes/bookmarks');
+const playlistRoutes = require('./routes/playlists');
 
 const app = express();
 app.use(cors());
@@ -17,6 +18,7 @@ app.use('/api/clubs', clubRoutes);
 app.use('/api/club-tasks', clubTaskRoutes);
 app.use('/api/syllabus', syllabusRoutes);
 app.use('/api/bookmarks', bookmarkRoutes);
+app.use('/api/playlists', playlistRoutes);
 
 app.use('/api/tasks', taskRoutes);
 

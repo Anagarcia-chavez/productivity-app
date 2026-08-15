@@ -17,6 +17,9 @@ export const deleteClubTask = (id) => api.delete(`/club-tasks/${id}`);
 export const getBookmarks = () => api.get('/bookmarks');
 export const createBookmark = (bookmark) => api.post('/bookmarks', bookmark);
 export const deleteBookmark = (id) => api.delete(`/bookmarks/${id}`);
+export const getPlaylists = () => api.get('/playlists');
+export const createPlaylist = (playlist) => api.post('/playlists', playlist);
+export const deletePlaylist = (id) => api.delete(`/playlists/${id}`);
 export const parseSyllabus = (formData) => api.post('/syllabus/parse', formData, {
   headers: { 'Content-Type': 'multipart/form-data' }
 });
