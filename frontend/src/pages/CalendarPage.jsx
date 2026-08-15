@@ -9,7 +9,7 @@ function CalendarPage() {
       <h1 style={{ textAlign: 'center' }}>This Week</h1>
       <iframe
         src={buildCalendarUrl('WEEK')}
-        style={{ border: 0, width: '100%', maxWidth: 900, height: 600, display: 'block', margin: '0 auto', borderRadius: 12 }}
+        style={{ border: 0, width: '100%', maxWidth: 1000, height: 400, display: 'block', margin: '0 auto', borderRadius: 12 }}
         title="Weekly Calendar"
       />
     </PageWrapper>

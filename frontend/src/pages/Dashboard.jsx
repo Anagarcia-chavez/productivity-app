@@ -12,35 +12,35 @@ function Dashboard() {
     <div style={{
       minHeight: '100vh',
       width: '100%',
-      backgroundColor: 'white',
+      backgroundImage: 'url(/grid.jpg)',
       boxSizing: 'border-box',
       fontFamily: "'Jersey 10', sans-serif"
     }}>
-      <div style={{
-        width: '100%',
-        height: 160,
-        position: 'relative',
-        backgroundColor: headerImage ? undefined : 'white',
-        backgroundImage: headerImage ? `url(${headerImage})` : undefined,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        padding: '16px 20px',
-        boxSizing: 'border-box',
-        zIndex: 10
-      }}>
-        <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 30 }}>
-          <BackgroundPicker pageKey="dashboard_header" onChange={setHeaderImage} />
-        </div>
+    
+    <div style={{
+      width: '100%',
+      height: 250,
+      position: 'relative',
+      backgroundColor: headerImage ? undefined : 'white',
+      backgroundImage: headerImage ? `url(${headerImage})` : undefined,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      boxSizing: 'border-box',
+      zIndex: 10
+    }}>
+      <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 30 }}>
+        <BackgroundPicker pageKey="dashboard_header" onChange={setHeaderImage} />
       </div>
-      <div style={{ padding: '0 20px 20px 20px' }}>
-      <h1 style={{ textAlign: 'center', margin: '30px 0' }}>Dashboard</h1>
+    </div>
+      <div style={{ padding: '0 0px 20px 20px' }}>
+      <h1 style={{ textAlign: 'center', margin: '20px 0' }}>Dashboard</h1>
 
       <Link to="/calendar" style={{ textDecoration: 'none', color: 'inherit' }}>
-        <div style={{ border: '2px solid white', borderRadius: 8, overflow: 'hidden', width: 320, margin: '20px auto', cursor: 'pointer' }}>
+        <div style={{ border: '2px solid white', borderRadius: 8, overflow: 'hidden', width: 820, margin: '30px auto', cursor: 'pointer' }}>
           <iframe
-            src={buildCalendarUrl('AGENDA')}
-            style={{ border: 0, width: '100%', height: 250, pointerEvents: 'none' }}
-            title="Today's Events"
+            src={buildCalendarUrl('WEEK')}
+            style={{ border: 0, width: '100%', height: 600, pointerEvents: 'none' }}
+            title="This Week"
           />
         </div>
       </Link>
